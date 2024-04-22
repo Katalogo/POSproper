@@ -18,6 +18,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("status")}</div>
     ),
+    size: 50,
   },
   {
     accessorKey: "name",
@@ -48,6 +49,7 @@ export const columns: ColumnDef<Payment>[] = [
 
       return <div className="text-right font-medium">{formatted}</div>;
     },
+    size: 50,
   },
   {
     id: "actions",
@@ -66,5 +68,6 @@ export const columns: ColumnDef<Payment>[] = [
         </div>
       );
     },
+    size: 100,
   },
 ];

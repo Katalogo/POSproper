@@ -13,24 +13,13 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  ArrowUpDown,
-  ChevronDown,
-  ListFilter,
-  MoreHorizontal,
-  PlusCircle,
-  File,
-} from "lucide-react";
-import { columns } from "./columns";
+import { ChevronDown } from "lucide-react";
 
 import {
   ColumnDef,
@@ -45,6 +34,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Toggle } from "@/components/ui/toggle";
+import { CSSProperties } from "react";
+
+const DEFAULT_REACT_TABLE_COLUMN_WIDTH: 150 = 150;
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -135,8 +127,12 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  const styles: CSSProperties =
+                    header.getSize() !== DEFAULT_REACT_TABLE_COLUMN_WIDTH
+                      ? { width: `${header.getSize()}px` }
+                      : {};
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} style={styles}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
