@@ -85,7 +85,7 @@ export function DataTable<TData, TValue>({
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
             // className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-            className="w-full rounded-lg bg-background"
+            className="w-full text-base rounded-lg bg-background"
           />
         </div>
         <div className="ml-auto flex items-center gap-2 py-1">
@@ -93,7 +93,7 @@ export function DataTable<TData, TValue>({
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto max-w-xs">
+              <Button variant="outline" className="text-base ml-auto max-w-xs">
                 Col{" "}
                 <ChevronDown className="sm:not-sr-only sm:whitespace-nowrap" />
               </Button>
@@ -151,6 +151,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="text-base"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -176,22 +177,24 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="flex-1 text-base text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">
           <Button
+            className="text-base"
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             Previous
           </Button>
           <Button
+            className="text-base"
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
