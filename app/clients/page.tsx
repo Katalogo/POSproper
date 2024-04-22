@@ -38,20 +38,20 @@ async function getData(): Promise<Payment[]> {
       // id: "newId1",
       amount: 450,
       status: "Due",
-      name: "John Doe",
+      name: "Pranab Roy",
     },
     {
       // id: "newId2",
       amount: 600,
       status: "Paid",
-      name: "Jane Smith",
+      name: "Ishan Roy",
     },
-    // {
-    //   // id: "newId3",
-    //   amount: 500,
-    //   status: "Due",
-    //   name: "Alice Johnson",
-    // },
+    {
+      // id: "newId3",
+      amount: 500,
+      status: "Due",
+      name: "Bijan Das",
+    },
   ];
 }
 
