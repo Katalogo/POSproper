@@ -11,9 +11,9 @@ import { PlusCircle } from "lucide-react";
 
 export function NavBar() {
   return (
-    <div className="flex flex-col items-center justify-between p-4  min-h-fit w-full">
-      <header className="z-10 w-full max-w-5xl items-center inset-x-0 top-0 flex gap-4 border-b bg-background px-4 mb-6">
-        <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-white py-2 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit">
+    <div className="bottom-0 md:top-0 fixed flex flex-col items-center justify-between min-h-fit w-full">
+      <header className="z-10 w-full items-center inset-x-0 flex gap-4 border bg-background">
+        <div className="left-0 flex w-full justify-center border border-gray-300 bg-white py-2 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit">
           <NavigationMenu>
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>

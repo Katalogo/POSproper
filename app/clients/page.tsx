@@ -52,6 +52,54 @@ async function getData(): Promise<Payment[]> {
       status: "Due",
       name: "Bijan Das",
     },
+    {
+      // id: "m5gr84i9",
+      amount: 316,
+      status: "Due",
+      name: "Anup Mallick",
+    },
+    {
+      // id: "3u1reuv4",
+      amount: 242,
+      status: "Paid",
+      name: "Sanjit Kenya",
+    },
+    {
+      // id: "derv1ws0",
+      amount: 837,
+      status: "Paid",
+      name: "Gita shri Mandal",
+    },
+    {
+      // id: "5kma53ae",
+      amount: 874,
+      status: "Due",
+      name: "Mohan Biswas",
+    },
+    {
+      // id: "bhqecj4p",
+      amount: 721,
+      status: "Paid",
+      name: "Bhola Mallick",
+    },
+    {
+      // id: "newId1",
+      amount: 450,
+      status: "Due",
+      name: "Pranab Roy",
+    },
+    {
+      // id: "newId2",
+      amount: 600,
+      status: "Paid",
+      name: "Ishan Roy",
+    },
+    {
+      // id: "newId3",
+      amount: 500,
+      status: "Due",
+      name: "Bijan Das",
+    },
   ];
 }
 
