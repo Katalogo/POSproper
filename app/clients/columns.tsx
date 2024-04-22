@@ -68,6 +68,6 @@ export const columns: ColumnDef<Payment>[] = [
         </div>
       );
     },
-    size: 100,
+    size: 80,
   },
 ];
