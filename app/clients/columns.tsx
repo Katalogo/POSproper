@@ -14,7 +14,18 @@ export type Payment = {
 export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "status",
-    header: "Status",
+    // header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("status")}</div>
     ),
@@ -58,16 +69,11 @@ export const columns: ColumnDef<Payment>[] = [
       const payment = row.original;
 
       return (
-        <div>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <PenBox className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <Trash className="h-4 w-4" />
-          </Button>
-        </div>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <PenBox className="h-6 w-6" />
+        </Button>
       );
     },
-    size: 80,
+    size: 60,
   },
 ];

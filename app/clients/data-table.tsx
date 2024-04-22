@@ -76,8 +76,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-2">
-        <div className="flex items-center py-1">
+      <div className="grid grid-cols-3">
+        <div className="flex items-center py-1 col-span-2">
           <Input
             placeholder="Filter names..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -89,7 +89,7 @@ export function DataTable<TData, TValue>({
           />
         </div>
         <div className="ml-auto flex items-center gap-2 py-1">
-          <Toggle variant="outline">Due</Toggle>
+          {/* <Button variant="outline">Due</Button> */}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
