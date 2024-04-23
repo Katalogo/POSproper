@@ -9,11 +9,27 @@ export type Payment = {
   amount: number;
   status: "Due" | "Paid";
   name: string;
+  address: string;
 };
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "amount" && "status",
+    accessorKey: "address",
+    header: () => <div>address</div>,
+    cell: ({ row }) => {
+      const aaddress = new String(row.getValue("address"));
+      // return (
+      //   <div>
+      //     <span className="capitalize">{row.getValue("status")}</span>
+      //     <p className="font-normal text-muted-foreground">{aaddress}</p>
+      //     <p className="font-normal text-muted-foreground">{formatted}</p>
+      //   </div>
+      // );
+    },
+    size: 50,
+  },
+  {
+    accessorKey: "status",
     header: ({ column }) => {
       return (
         <Button
@@ -26,18 +42,21 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      // const amount = parseFloat(row.getValue("amount"));
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "INR",
-      }).format(amount);
-
+      // // Format the amount as a INR amount
+      // const formatted = new Intl.NumberFormat("en-IN", {
+      //   style: "currency",
+      //   currency: "INR",
+      //   notation: "compact",
+      //   maximumSignificantDigits: 10,
+      // }).format(amount);
+      // const aaddress = new String(row.getValue("address"));
       return (
         <div>
           <span className="capitalize">{row.getValue("status")}</span>
-          <p className="font-normal text-muted-foreground">{formatted}</p>
+          {/* <p className="font-normal text-muted-foreground">{aaddress}</p> */}
+          {/* <p className="font-normal text-muted-foreground">{formatted}</p> */}
         </div>
       );
     },
@@ -64,7 +83,7 @@ export const columns: ColumnDef<Payment>[] = [
   //   size: 50,
   // },
   {
-    accessorKey: "name",
+    accessorKey: "address" && "name",
     header: ({ column }) => {
       return (
         <Button
@@ -76,8 +95,40 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+    // cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    cell: ({ row }) => {
+      const aaddress = new String(row.getValue("address"));
+
+      // const formatted = new Intl.NumberFormat("en-US", {
+      //   style: "currency",
+      //   currency: "INR",
+      // }).format(amount);
+      return (
+        <div>
+          <span className="capitalize">{row.getValue("name")}</span>
+          {/* <p className="font-normal text-muted-foreground">
+            {row.getValue("address")}
+          </p> */}
+          <p className="font-normal text-muted-foreground">{aaddress}</p>
+        </div>
+      );
+    },
   },
+  // {
+  //   accessorKey: "name",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Name
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+  // },
   {
     accessorKey: "amount",
     header: () => <div className="text-right">Amount</div>,
@@ -85,9 +136,11 @@ export const columns: ColumnDef<Payment>[] = [
       const amount = parseFloat(row.getValue("amount"));
 
       // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
         currency: "INR",
+        notation: "compact",
+        maximumSignificantDigits: 10,
       }).format(amount);
 
       return <div className="text-right font-medium">{formatted}</div>;
