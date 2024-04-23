@@ -25,11 +25,23 @@ export function NavBar() {
                 Clients
               </NavigationMenuLink>
             </Link>
-            <Link href="/" legacyBehavior passHref>
+            {/* <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 <PlusCircle className="h-3.5 w-3.5" />
                 Add Client
               </NavigationMenuLink>
+            </Link> */}
+            <Link href="/" legacyBehavior passHref>
+              <Button
+                className="bg-blue-200 text-lg px-4"
+                variant="outline"
+                size="default"
+              >
+                <PlusCircle className="h-4 w-4" />
+                <span className="sr-only not-sr-only whitespace-nowrap">
+                  Add Client
+                </span>
+              </Button>
             </Link>
             {/* <Button className="ml-3 bg-blue-200" variant="outline" size="lg">
               <PlusCircle className="h-3.5 w-3.5" />
