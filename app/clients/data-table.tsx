@@ -34,7 +34,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Toggle } from "@/components/ui/toggle";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect } from "react";
 
 const DEFAULT_REACT_TABLE_COLUMN_WIDTH: 150 = 150;
 
@@ -52,16 +52,21 @@ export function DataTable<TData, TValue>({
     []
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({ address: false });
   const [rowSelection, setRowSelection] = React.useState({});
-
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0, //initial page index
+    pageSize: 6, //default page size
+  });
   const table = useReactTable({
     data,
     columns,
+    // initialState:  ,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -71,13 +76,18 @@ export function DataTable<TData, TValue>({
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination,
     },
   });
-
+  // useEffect(() => {
+  //   table.setPageSize(6);
+  // }, []);
+  // const tableSize = useMemo(() => {table.setPageSize(Number(5))});
   return (
-    <div className="w-full p-2">
+    <div className="w-full px-2">
       <div className="grid grid-cols-3">
         <div className="flex items-center py-2 col-span-2">
+          {/* {table.setPageSize(Number({5}))} */}
           <Input
             placeholder="Filter names..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -101,6 +111,7 @@ export function DataTable<TData, TValue>({
             <DropdownMenuContent align="end">
               {table
                 .getAllColumns()
+                // .filter((column) => column.getCanHide())
                 .filter((column) => column.getCanHide())
                 .map((column) => {
                   return (
@@ -177,10 +188,10 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-base text-muted-foreground">
+        {/* <div className="flex-1 text-base text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
+        </div> */}
         <div className="space-x-2">
           <Button
             className="text-base"
@@ -201,6 +212,12 @@ export function DataTable<TData, TValue>({
             Next
           </Button>
         </div>
+        {/* <Select
+          value={`${table.getState().pagination.pageSize}`}
+          onValueChange={(value) => {
+            table.setPageSize(Number(value));
+          }}
+        ></Select> */}
       </div>
     </div>
   );

@@ -27,6 +27,8 @@ export const columns: ColumnDef<Payment>[] = [
       // );
     },
     size: 50,
+
+    // getCanHide: () => false,
   },
   {
     accessorKey: "status",
