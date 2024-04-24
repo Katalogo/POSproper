@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
   // }, []);
   // const tableSize = useMemo(() => {table.setPageSize(Number(5))});
   return (
-    <div className="w-full px-2">
+    <div className="w-full">
       <div className="grid grid-cols-3">
         <div className="flex items-center py-2 col-span-2">
           {/* {table.setPageSize(Number({5}))} */}
