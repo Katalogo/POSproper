@@ -31,7 +31,7 @@ export function NavBar() {
                 Add Client
               </NavigationMenuLink>
             </Link> */}
-            <Link href="/" legacyBehavior passHref>
+            <Link href="/addClient" legacyBehavior passHref>
               <Button
                 className="bg-blue-200 text-lg px-4"
                 variant="outline"
@@ -39,7 +39,7 @@ export function NavBar() {
               >
                 <PlusCircle className="h-4 w-4" />
                 <span className="sr-only not-sr-only whitespace-nowrap">
-                  Add Client
+                  Add
                 </span>
               </Button>
             </Link>

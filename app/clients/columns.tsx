@@ -111,7 +111,8 @@ export const columns: ColumnDef<Payment>[] = [
           {/* <p className="font-normal text-muted-foreground">
             {row.getValue("address")}
           </p> */}
-          <p className="font-normal text-muted-foreground text-ellipsis whitespace-nowrap overflow-hidden">
+          <p className="font-normal text-muted-foreground line-clamp-1">
+            {/* <p className="font-normal text-muted-foreground text-ellipsis whitespace-nowrap overflow-hidden"> */}
             {aaddress}
           </p>
           {/* <p className="font-normal text-muted-foreground">{aaddress}</p> */}
