@@ -15,11 +15,11 @@ datasource db {
 
 model Client {
  id        String   @id @default(auto()) @map("_id") @db.ObjectId
- name      String   @minLength(2) @maxLength(30)
- address   String   @minLength(2)
+ name      String   
+ address   String   
  phone     Int
  items     Item[]
- payments Payment[]
+ payments  Payment[]
 }
 
 model Item {
@@ -27,15 +27,15 @@ model Item {
  name      String
  price     Float
  quantity  Int
- clientId  Int
+ clientId  String   @db.ObjectId
  client    Client   @relation(fields: [clientId], references: [id])
 }
 
 model Payment {
  id        String   @id @default(auto()) @map("_id") @db.ObjectId
  paid      Float
- clientId  Int
- client    Client @relation(fields: [clientId], references: [id])
+ clientId  String   @db.ObjectId
+ client    Client   @relation(fields: [clientId], references: [id])
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
 }

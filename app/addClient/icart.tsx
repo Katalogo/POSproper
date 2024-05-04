@@ -31,6 +31,11 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import TimeStamp from "@/components/timeStamp";
+import {
+  ClientWithItemsAndPayments,
+  createClient,
+  createClientWithItemsAndPayments,
+} from "@/lib/cru";
 
 // const FormValuesSchema = z.object({
 //   name: z.coerce
@@ -148,7 +153,41 @@ export function ICart() {
     name: "payments",
   });
   const { errors } = form.formState;
-  const onSubmit = (data: FormValuesSchema) => console.log(data);
+  // const onSubmit = (data: FormValuesSchema) => console.log(data);
+
+  const onSubmit = (data: FormValuesSchema) => {
+    console.log(data);
+    // Assuming FormValuesSchema has the structure you've described
+    // and ClientWithItemsAndPayments expects clientData, itemsData, paymentsData
+
+    // Extract the necessary data from the form values
+    const clientData = {
+      name: data.name,
+      address: data.address,
+      phone: data.phone,
+    };
+
+    const itemsData = data.item.map((item) => ({
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
+    const paymentsData = data.payments.map((payment) => ({
+      paid: payment.paid,
+    }));
+
+    // Create the object that matches the ClientWithItemsAndPayments type
+    const clientWithItemsAndPaymentsData: ClientWithItemsAndPayments = {
+      clientData,
+      itemsData,
+      paymentsData,
+    };
+
+    // Now pass this correctly structured object to the function
+    createClientWithItemsAndPayments(clientWithItemsAndPaymentsData);
+    // createClient(clientData);
+  };
 
   return (
     <Form {...form}>
