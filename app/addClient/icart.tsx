@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 // import { ChevronsUpDownIcon } from "lucide-react";
-import { number, z } from "zod";
+import { nullable, number, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormValuesSchema } from "@/components/schema";
 import {
@@ -232,7 +232,7 @@ export function ICart() {
             className="my-1 w-[100px]"
             type="button"
             onClick={() =>
-              appendItem({ name: "", quantity: undefined, price: undefined })
+              appendItem({ name: "", quantity: null, price: null })
             }
           >
             APPEND
@@ -276,6 +276,7 @@ export function ICart() {
                           placeholder="quantity"
                           type="number"
                           className="w-full rounded-lg bg-background pl-5 md:w-[200px] lg:w-[336px]"
+                          value={field.value || ""}
                         />
                       </div>
                     </FormControl>
@@ -299,6 +300,7 @@ export function ICart() {
                           type="number"
                           // pattern=""
                           className="w-full rounded-lg bg-background pl-5 md:w-[200px] lg:w-[336px]"
+                          value={field.value || ""}
                         />
                       </div>
                     </FormControl>
@@ -321,7 +323,7 @@ export function ICart() {
           <Button
             className="my-1 w-[100px]"
             type="button"
-            onClick={() => appendPayment({ paid: undefined })}
+            onClick={() => appendPayment({ paid: null })}
           >
             APPEND
           </Button>
@@ -342,6 +344,7 @@ export function ICart() {
                           placeholder="paying"
                           type="number"
                           className="min-w-40 rounded-lg bg-background pl-8 md:w-[150px] lg:w-[336px]"
+                          value={field.value || ""}
                         />
                       </div>
                     </FormControl>

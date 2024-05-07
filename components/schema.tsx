@@ -6,13 +6,13 @@ const FormValuesSchema = z.object({
       name: z.string({
         required_error: "Please select a item.",
       }),
-      price: z.coerce.number(),
-      quantity: z.coerce.number(),
+      price: z.coerce.number().nullable(),
+      quantity: z.coerce.number().nullable(),
     })
   ),
   payments: z.array(
     z.object({
-      paid: z.coerce.number(),
+      paid: z.coerce.number().nullable(),
     })
   ),
   name: z.coerce
