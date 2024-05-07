@@ -36,6 +36,7 @@ import {
   createClient,
   createClientWithItemsAndPayments,
 } from "@/lib/cru";
+import { FormattedNumber } from "@/components/calculations";
 
 // const FormValuesSchema = z.object({
 //   name: z.coerce
@@ -81,19 +82,6 @@ const Total = ({ control }: { control: Control<FormValuesSchema> }) => {
     (acc, current) => acc + (current.price || 0) * (current.quantity || 0),
     0
   );
-  // const formatted_1 = new Intl.NumberFormat("en-IN", {
-  //   style: "currency",
-  //   currency: "INR",
-  //   // notation: "compact",
-  //   // maximumSignificantDigits: 10,
-  // }).format(total);
-  // // const formatted_2 = new Intl.NumberFormat("en-IN", {
-  // //   style: "currency",
-  // //   currency: "INR",
-  // //   notation: "compact",
-  // //   signDisplay: "exceptZero",
-  // //   maximumSignificantDigits: 10,
-  // // }).format(total);
   return total;
 };
 
@@ -107,26 +95,7 @@ const TotalDue = ({ control }: { control: Control<FormValuesSchema> }) => {
     (acc, current) => acc - (current.paid || 0),
     +Total({ control })
   );
-  const formatted_3 = new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    // notation: "compact",
-    // maximumSignificantDigits: 10,
-  }).format(due);
-  // const formatted_4 = new Intl.NumberFormat("en-IN", {
-  //   style: "currency",
-  //   currency: "INR",
-  //   notation: "compact",
-  //   // signDisplay: "exceptZero",
-  //   // maximumSignificantDigits: 10,
-  // }).format(due);
-  return (
-    <div>
-      <p>Due Amount: {formatted_3}</p>
-      {/* <p>Due Amount: {formatted_4}</p> */}
-    </div>
-  );
-  // return <p>Total Amount: {total}</p>;
+  return <FormattedNumber value={due} />;
 };
 
 export function ICart() {
@@ -161,32 +130,32 @@ export function ICart() {
     // and ClientWithItemsAndPayments expects clientData, itemsData, paymentsData
 
     // Extract the necessary data from the form values
-    const clientData = {
-      name: data.name,
-      address: data.address,
-      phone: data.phone,
-    };
+    // const clientData = {
+    //   name: data.name,
+    //   address: data.address,
+    //   phone: data.phone,
+    // };
 
-    const itemsData = data.item.map((item) => ({
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity,
-    }));
+    // const itemsData = data.item.map((item) => ({
+    //   name: item.name,
+    //   price: item.price,
+    //   quantity: item.quantity,
+    // }));
 
-    const paymentsData = data.payments.map((payment) => ({
-      paid: payment.paid,
-    }));
+    // const paymentsData = data.payments.map((payment) => ({
+    //   paid: payment.paid,
+    // }));
 
-    // Create the object that matches the ClientWithItemsAndPayments type
-    const clientWithItemsAndPaymentsData: ClientWithItemsAndPayments = {
-      clientData,
-      itemsData,
-      paymentsData,
-    };
+    // // Create the object that matches the ClientWithItemsAndPayments type
+    // const clientWithItemsAndPaymentsData: ClientWithItemsAndPayments = {
+    //   clientData,
+    //   itemsData,
+    //   paymentsData,
+    // };
 
-    // Now pass this correctly structured object to the function
-    createClientWithItemsAndPayments(clientWithItemsAndPaymentsData);
-    // createClient(clientData);
+    // // Now pass this correctly structured object to the function
+    // createClientWithItemsAndPayments(clientWithItemsAndPaymentsData);
+    // // createClient(clientData);
   };
 
   return (
@@ -211,6 +180,9 @@ export function ICart() {
               </FormItem>
             )}
           />
+          {/* <FormField control={form.control}
+            name="name"
+            render={({ field }) =>/> */}
           <FormField
             control={form.control}
             name="address"
@@ -387,6 +359,7 @@ export function ICart() {
               </Button>
             </div>
           ))}
+          {/* <FormattedNumber value={total} />; */}
           <TotalDue control={form.control} />
         </div>
         {/* <Button

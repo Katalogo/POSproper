@@ -27,6 +27,7 @@ const FormValuesSchema = z.object({
     message: "Address must be at least 2 characters.",
   }),
   phone: z.coerce.number(),
+  // totaldue: z.coerce.number(),
 });
 
 export { FormValuesSchema };

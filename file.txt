@@ -1,134 +1,107 @@
-<div className="grid">
-          <Button
-            className="my-1 w-[100px]"
-            type="button"
-            onClick={() =>
-              appendItem({ name: "", quantity: undefined, price: undefined })
-            }
-          >
-            APPEND
-          </Button>
-          {itemFields.map((field, index) => (
-            <div key={field.id} className="flex flex-row justify-between">
-              <FormField
-                control={form.control}
-                name={`item.${index}.name`}
-                render={({ field }) => (
-                  <FormItem className="p-1">
-                    {/* {`item.${index}.name`} */}
-                    {/* <FormLabel>Price</FormLabel> */}
-                    <FormControl>
-                      <div className="relative ml-auto flex-1 md:grow-0">
-                        <Box className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          {...field}
-                          placeholder="product"
-                          type="string"
-                          className="min-w-40 rounded-lg bg-background pl-8 md:w-[150px] lg:w-[336px]"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`item.${index}.quantity`}
-                render={({ field }) => (
-                  <FormItem className="p-1">
-                    {/* {`item.${index}.quantity`} */}
-                    {/* <FormLabel>Quantity</FormLabel> */}
-                    <FormControl>
-                      <div className="relative ml-auto flex-1 md:grow-0">
-                        <Hash className="absolute left-1 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          {...field}
-                          placeholder="quantity"
-                          type="number"
-                          className="w-full rounded-lg bg-background pl-5 md:w-[200px] lg:w-[336px]"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`item.${index}.price`}
-                render={({ field }) => (
-                  <FormItem className="p-1">
-                    {/* {`item.${index}.price`} */}
-                    {/* <FormLabel>Price</FormLabel> */}
-                    <FormControl>
-                      <div className="relative ml-auto flex-1 md:grow-0">
-                        <IndianRupee className="absolute left-1 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          {...field}
-                          placeholder="price"
-                          type="number"
-                          // pattern=""
-                          className="w-full rounded-lg bg-background pl-5 md:w-[200px] lg:w-[336px]"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                className="m-1 p-0 px-2"
-                type="button"
-                onClick={() => removeItem(index)}
-              >
-                <Trash className="h-4 w-4 " />
-              </Button>
-            </div>
-          ))}
-          <Total control={form.control} />
-        </div>
-        <div>
-          <Button
-            className="my-1 w-[100px]"
-            type="button"
-            onClick={() => appendPayment({ paid: undefined })}
-          >
-            APPEND
-          </Button>
-          {paymentFields.map((field, index) => (
-            <div key={field.id} className="flex flex-row justify-between">
-              <FormField
-                control={form.control}
-                name={`payments.${index}.paid`}
-                render={({ field }) => (
-                  <FormItem className="p-1">
-                    {/* {`item.${index}.quantity`} */}
-                    {/* <FormLabel>Quantity</FormLabel> */}
-                    <FormControl>
-                      <div className="relative ml-auto flex-1 md:grow-0">
-                        <IndianRupee className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          {...field}
-                          placeholder="paying"
-                          type="number"
-                          className="min-w-40 rounded-lg bg-background pl-8 md:w-[150px] lg:w-[336px]"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <TimeStamp />
-              <Button
-                className="m-1 p-0 px-2"
-                type="button"
-                onClick={() => removePayment(index)}
-              >
-                <Trash className="h-4 w-4 " />
-              </Button>
-            </div>
-          ))}
-          <TotalDue control={form.control} />
-        </div>
+To achieve the functionality where you calculate `total` in one component and use it in another component while returning `FormattedNumber` JSX, you can use React's context API to share the `total` value across components. This approach allows you to calculate the `total` in one place and then access it in another component for further calculations or display.
+
+First, create a context to hold the `total` value:
+
+```typescriptreact
+// TotalContext.tsx
+import React, { createContext, useContext, useState } from 'react';
+
+interface TotalContextProps {
+ total: number;
+ setTotal: (value: number) => void;
+}
+
+const TotalContext = createContext<TotalContextProps | undefined>(undefined);
+
+export const useTotal = () => {
+ const context = useContext(TotalContext);
+ if (!context) {
+    throw new Error('useTotal must be used within a TotalProvider');
+ }
+ return context;
+};
+
+export const TotalProvider: React.FC = ({ children }) => {
+ const [total, setTotal] = useState<number>(0);
+
+ return (
+    <TotalContext.Provider value={{ total, setTotal }}>
+      {children}
+    </TotalContext.Provider>
+ );
+};
+```
+
+Next, modify the `Total` component to calculate the `total` and update the context:
+
+```typescriptreact
+// Total.tsx
+import React, { useEffect } from 'react';
+import { useTotal } from './TotalContext'; // Adjust the import path as necessary
+import { FormattedNumber } from './FormattedNumber'; // Adjust the import path as necessary
+
+const Total = ({ control }: { control: Control<FormValuesSchema> }) => {
+ const { setTotal } = useTotal();
+ const formValues = useWatch({
+    name: "item",
+    control,
+ }) || [];
+
+ useEffect(() => {
+    const total = formValues.reduce(
+      (acc, current) => acc + (current.price || 0) * (current.quantity || 0),
+      0
+    );
+    setTotal(total);
+ }, [formValues, setTotal]);
+
+ return <FormattedNumber value={total} />;
+};
+```
+
+Finally, use the `Total` component and access the `total` value in the `TotalDue` component:
+
+```typescriptreact
+// TotalDue.tsx
+import React from 'react';
+import { useTotal } from './TotalContext'; // Adjust the import path as necessary
+import { FormattedNumber } from './FormattedNumber'; // Adjust the import path as necessary
+
+const TotalDue = ({ control }: { control: Control<FormValuesSchema> }) => {
+ const { total } = useTotal();
+ const formValues = useWatch({
+    name: "payments",
+    control,
+ }) || [];
+
+ const due = formValues.reduce(
+    (acc, current) => acc - (current.paid || 0),
+    total
+ );
+
+ return <FormattedNumber value={due} />;
+};
+```
+
+Wrap your application or the part of your application that uses these components with the `TotalProvider`:
+
+```typescriptreact
+// App.tsx or a similar entry point
+import React from 'react';
+import { TotalProvider } from './TotalContext'; // Adjust the import path as necessary
+import { Total, TotalDue } from './YourComponents'; // Adjust the import path as necessary
+
+const App: React.FC = () => {
+ return (
+    <TotalProvider>
+      {/* Your form and other components */}
+      <Total control={yourControl} />
+      <TotalDue control={yourControl} />
+    </TotalProvider>
+ );
+};
+
+export default App;
+```
+
+This setup allows you to calculate the `total` in the `Total` component, share it via context, and use it in the `TotalDue` component while returning `FormattedNumber` JSX.

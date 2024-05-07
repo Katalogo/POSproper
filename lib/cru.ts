@@ -11,6 +11,7 @@ export interface ClientData {
   name: string;
   address: string;
   phone: number;
+  totalDue: number;
 }
 
 export interface ItemData {
