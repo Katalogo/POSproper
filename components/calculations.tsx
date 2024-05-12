@@ -12,7 +12,7 @@ const FormattedNumber: React.FC<FormattedNumberProps> = ({ value }) => {
     // Additional options can be specified here
   }).format(value);
 
-  return <span>Due Amount: {formattedValue}</span>;
+  return <span>{formattedValue}</span>;
 };
 // FormattedNumber.displayName = "FormattedNumber";
 

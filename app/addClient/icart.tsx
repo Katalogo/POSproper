@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { IndianRupee, Box, Hash, Trash, Divide } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -99,11 +100,23 @@ const TotalDue = ({ control }: { control: Control<FormValuesSchema> }) => {
 };
 
 export function ICart() {
-  const form = useForm<FormValuesSchema>({
+  // const form = useForm<FormValuesSchema>({
+  const form = useForm<z.infer<typeof FormValuesSchema>>({
     resolver: zodResolver(FormValuesSchema),
     // defaultValues,
     mode: "onChange",
   });
+
+  // function onSubmit(data: z.infer<typeof FormValuesSchema>) {
+  //   toast({
+  //     title: "You submitted the following values:",
+  //     description: (
+  //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+  //         <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+  //       </pre>
+  //     ),
+  //   });
+  // }
 
   const {
     fields: itemFields,
@@ -123,39 +136,75 @@ export function ICart() {
   });
   const { errors } = form.formState;
   // const onSubmit = (data: FormValuesSchema) => console.log(data);
-
+  const { toast } = useToast();
   const onSubmit = (data: FormValuesSchema) => {
     console.log(data);
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 z-50">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   ),
+    // });
+    // console.log("work");
+
     // Assuming FormValuesSchema has the structure you've described
     // and ClientWithItemsAndPayments expects clientData, itemsData, paymentsData
 
+    //  caluculation function here put the data in client data
+
     // Extract the necessary data from the form values
-    // const clientData = {
-    //   name: data.name,
-    //   address: data.address,
-    //   phone: data.phone,
-    // };
+    const clientData = {
+      name: data.name,
+      address: data.address,
+      phone: data.phone,
+      total: 0, // Initialize total to 0
+      totalDue: 0, // Initialize totalDue to 0
+      // totalPaid: 0,
+    };
 
-    // const itemsData = data.item.map((item) => ({
-    //   name: item.name,
-    //   price: item.price,
-    //   quantity: item.quantity,
-    // }));
+    const itemsData = data.item.map((item) => ({
+      name: item.name,
+      price: item.price || 0,
+      quantity: item.quantity || 0,
+    }));
 
-    // const paymentsData = data.payments.map((payment) => ({
-    //   paid: payment.paid,
-    // }));
+    const paymentsData = data.payments.map((payment) => ({
+      paid: payment.paid || 0,
+    }));
 
-    // // Create the object that matches the ClientWithItemsAndPayments type
-    // const clientWithItemsAndPaymentsData: ClientWithItemsAndPayments = {
-    //   clientData,
-    //   itemsData,
-    //   paymentsData,
-    // };
+    // Calculate the total amount due for all items
+    const total = itemsData.reduce(
+      (acc, item) => acc + (item.price || 0) * (item.quantity || 0),
+      0
+    );
 
-    // // Now pass this correctly structured object to the function
-    // createClientWithItemsAndPayments(clientWithItemsAndPaymentsData);
-    // // createClient(clientData);
+    // Calculate the total amount paid
+    const totalPaid = paymentsData.reduce(
+      (acc, payment) => acc + (payment.paid || 0),
+      0
+    );
+
+    // Calculate the total due, which is the total amount due for all items minus the total amount paid
+    const totalDue = total - totalPaid;
+
+    // Update the clientData object with the calculated total and totalDue
+    clientData.total = total;
+    clientData.totalDue = totalDue;
+    // clientData.totalPaid = totalPaid;
+
+    // Create the object that matches the ClientWithItemsAndPayments type
+    const clientWithItemsAndPaymentsData: ClientWithItemsAndPayments = {
+      clientData,
+      itemsData,
+      paymentsData,
+    };
+
+    // Now pass this correctly structured object to the function
+    createClientWithItemsAndPayments(clientWithItemsAndPaymentsData);
+    // createClientWithItemsAndPayments(data);
+    // createClient(clientData);
   };
 
   return (
@@ -168,12 +217,12 @@ export function ICart() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <div className="grid grid-cols-5 items-center py-1">
-                  <FormLabel className="col-span-1 text-right pr-4">
+                <div className="grid grid-cols-8 items-center py-1">
+                  <FormLabel className="col-span-2 text-right pr-4">
                     Name
                   </FormLabel>
-                  <FormControl className="col-span-3 pr-7">
-                    <Input placeholder="name" {...field} />
+                  <FormControl className="col-span-5 pr-7">
+                    <Input autoComplete="off" placeholder="name" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage className="text-center" />
@@ -188,13 +237,14 @@ export function ICart() {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <div className="grid grid-cols-5 items-center py-1">
-                  <FormLabel className="col-span-1 text-right pr-4">
+                <div className="grid grid-cols-8 items-center py-1">
+                  <FormLabel className="col-span-2 text-right pr-4">
                     Address
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="col-span-3"
+                      autoComplete="off"
+                      className="col-span-5"
                       placeholder="address"
                       {...field}
                     />
@@ -209,13 +259,14 @@ export function ICart() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <div className="grid grid-cols-5 items-center py-1">
-                  <FormLabel className="col-span-1 text-right pr-4">
+                <div className="grid grid-cols-8 items-center py-1">
+                  <FormLabel className="col-span-2 text-right pr-4">
                     Phone
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="col-span-3"
+                      autoComplete="off"
+                      className="col-span-5"
                       type="number"
                       placeholder="phone"
                       {...field}
@@ -250,6 +301,7 @@ export function ICart() {
                       <div className="relative ml-auto flex-1 md:grow-0">
                         <Box className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
+                          autoComplete="off"
                           {...field}
                           placeholder="product"
                           type="string"
@@ -272,6 +324,7 @@ export function ICart() {
                       <div className="relative ml-auto flex-1 md:grow-0">
                         <Hash className="absolute left-1 top-3 h-4 w-4 text-muted-foreground" />
                         <Input
+                          autoComplete="off"
                           {...field}
                           placeholder="quantity"
                           type="number"
@@ -295,6 +348,7 @@ export function ICart() {
                       <div className="relative ml-auto flex-1 md:grow-0">
                         <IndianRupee className="absolute left-1 top-3 h-4 w-4 text-muted-foreground" />
                         <Input
+                          autoComplete="off"
                           {...field}
                           placeholder="price"
                           type="number"
@@ -321,7 +375,7 @@ export function ICart() {
         </div>
         <div>
           <Button
-            className="my-1 w-[100px]"
+            className="my-1 w-[100px] flex"
             type="button"
             onClick={() => appendPayment({ paid: null })}
           >
@@ -340,6 +394,7 @@ export function ICart() {
                       <div className="relative ml-auto flex-1 md:grow-0">
                         <IndianRupee className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
+                          autoComplete="off"
                           {...field}
                           placeholder="paying"
                           type="number"
@@ -352,7 +407,7 @@ export function ICart() {
                   </FormItem>
                 )}
               />
-              <TimeStamp />
+              {/* <TimeStamp /> */}
               <Button
                 className="m-1 p-0 px-2"
                 type="button"

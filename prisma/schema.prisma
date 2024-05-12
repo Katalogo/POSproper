@@ -14,28 +14,34 @@ datasource db {
 }
 
 model Client {
- id        String   @id @default(auto()) @map("_id") @db.ObjectId
- name      String   
- address   String   
- phone     Int
- items     Item[]
- payments  Payment[]
+ id         String    @id @default(auto()) @map("_id") @db.ObjectId
+ name       String   
+ address    String   
+ phone      Int
+ total      Int
+ totalDue   Int
+ createdAt  DateTime  @default(now())
+ updatedAt  DateTime  @updatedAt
+ items      Item[]
+ payments   Payment[]
 }
 
 model Item {
- id        String   @id @default(auto()) @map("_id") @db.ObjectId
- name      String
- price     Float
- quantity  Int
- clientId  String   @db.ObjectId
- client    Client   @relation(fields: [clientId], references: [id])
+ id         String    @id @default(auto()) @map("_id") @db.ObjectId
+ name       String
+ price      Float
+ quantity   Int
+ clientId   String    @db.ObjectId
+ client     Client    @relation(fields: [clientId], references: [id])
+ createdAt  DateTime  @default(now())
+ updatedAt  DateTime  @updatedAt
 }
 
 model Payment {
- id        String   @id @default(auto()) @map("_id") @db.ObjectId
- paid      Float
- clientId  String   @db.ObjectId
- client    Client   @relation(fields: [clientId], references: [id])
- createdAt DateTime @default(now())
- updatedAt DateTime @updatedAt
+ id         String    @id @default(auto()) @map("_id") @db.ObjectId
+ paid       Float
+ clientId   String    @db.ObjectId
+ client     Client    @relation(fields: [clientId], references: [id])
+ createdAt  DateTime  @default(now())
+ updatedAt  DateTime  @updatedAt
 }

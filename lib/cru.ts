@@ -11,6 +11,7 @@ export interface ClientData {
   name: string;
   address: string;
   phone: number;
+  total: number;
   totalDue: number;
 }
 
@@ -30,15 +31,56 @@ export interface ClientWithItemsAndPayments {
   paymentsData: PaymentData[];
 }
 
-export async function getcru() {
+// export interface Cru {
+//   clients: ClientData[];
+// }
+
+// export async function getcru() {
+//   try {
+//     const cru: ClientData = await prisma.client.findMany();
+//     console.log({ cru });
+//     return { cru };
+//   } catch (error) {
+//     return { error };
+//   }
+// }
+
+export interface ClientsResponse {
+  clients: ClientData[];
+  error?: any; // Use a more specific type if possible
+}
+
+export async function getClients(): Promise<ClientsResponse> {
   try {
-    const cru = await prisma.client.findMany();
-    console.log({ cru });
-    return { cru };
+    console.log("database");
+    const clients = await prisma.client.findMany();
+    // console.log("end: ", { clients });
+    return { clients };
   } catch (error) {
-    return { error };
+    console.error(error);
+    return { clients: [], error };
   }
 }
+
+// export async function getcru() {
+//   try {
+//     const clients = await prisma.client.findMany({
+//       select: {
+//         id: true,
+//         name: true,
+//         address: true,
+//         totalDue: true,
+//         phone: true, // Ensure this is included
+//         total: true, // Ensure this is included
+//       },
+//     });
+//     const cru: Cru = { clients }; // Wrap the clients array in an object with a 'clients' property
+//     console.log("end: ", { cru });
+//     return { cru };
+//   } catch (error) {
+//     return { error };
+//   }
+// }
 
 export async function createClientWithItemsAndPayments(
   data: ClientWithItemsAndPayments

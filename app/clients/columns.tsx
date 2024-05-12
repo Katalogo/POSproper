@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, PenBox, Trash } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export type Payment = {
   // id: string;
@@ -44,6 +45,8 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
+      const status = row.getValue("status");
+      const tColor = status === "Due" ? "destructive" : "default";
       // const amount = parseFloat(row.getValue("amount"));
 
       // // Format the amount as a INR amount
@@ -56,7 +59,9 @@ export const columns: ColumnDef<Payment>[] = [
       // const aaddress = new String(row.getValue("address"));
       return (
         <div>
-          <span className="capitalize">{row.getValue("status")}</span>
+          {/* <span className="capitalize">{row.getValue("status")}</span> */}
+          <Badge variant={tColor}>{row.getValue("status")}</Badge>
+          {/* <Badge variant={tColor}>{status}</Badge> */}
           {/* <p className="font-normal text-muted-foreground">{aaddress}</p> */}
           {/* <p className="font-normal text-muted-foreground">{formatted}</p> */}
         </div>

@@ -105,3 +105,64 @@ export default App;
 ```
 
 This setup allows you to calculate the `total` in the `Total` component, share it via context, and use it in the `TotalDue` component while returning `FormattedNumber` JSX.
+
+
+i want to save them to the client details
+
+To save the "total" and "totalDue" to the client's details in the database, you need to ensure that these values are included in the data structure that represents the client's details in your database schema. Assuming you have a client model or schema that can accommodate these additional fields, you'll need to adjust the `clientData` object to include `total` and `totalDue` before sending it to the database.
+
+Here's how you can modify the `onSubmit` function to include `total` and `totalDue` in the client's details:
+
+```typescript
+const onSubmit = (data: FormValuesSchema) => {
+  console.log(data);
+
+  // Extract the necessary data from the form values
+  const clientData = {
+    name: data.name,
+    address: data.address,
+    phone: data.phone,
+    total: 0, // Initialize total to 0
+    totalDue: 0, // Initialize totalDue to 0
+  };
+
+  const itemsData = data.item.map((item) => ({
+    name: item.name,
+    price: item.price || 0,
+    quantity: item.quantity || 0,
+  }));
+
+  const paymentsData = data.payments.map((payment) => ({
+    paid: payment.paid || 0,
+  }));
+
+  // Calculate the total amount due for all items
+  const total = itemsData.reduce((acc, item) => acc + (item.price || 0) * (item.quantity || 0), 0);
+
+  // Calculate the total amount paid
+  const totalPaid = paymentsData.reduce((acc, payment) => acc + (payment.paid || 0), 0);
+
+  // Calculate the total due, which is the total amount due for all items minus the total amount paid
+  const totalDue = total - totalPaid;
+
+  // Update the clientData object with the calculated total and totalDue
+  clientData.total = total;
+  clientData.totalDue = totalDue;
+
+  // Create the object that matches the ClientWithItemsAndPayments type
+  const clientWithItemsAndPaymentsData: ClientWithItemsAndPayments = {
+    clientData,
+    itemsData,
+    paymentsData,
+  };
+
+  // Now pass this correctly structured object to the function
+  createClientWithItemsAndPayments(clientWithItemsAndPaymentsData);
+};
+```
+
+In this modification, `total` and `totalDue` are initialized to `0` in the `clientData` object. After calculating the actual values for `total` and `totalDue`, these values are updated in the `clientData` object before it's used to create the `clientWithItemsAndPaymentsData` object.
+
+Ensure that your database schema for the client model includes fields for `total` and `totalDue` to store these values. If your database schema or the `ClientWithItemsAndPayments` type does not currently include these fields, you'll need to update them accordingly.
+
+This approach ensures that the client's details, including the total amount due and the total amount paid, are accurately reflected in the database, providing a comprehensive view of the client's financial transactions.
