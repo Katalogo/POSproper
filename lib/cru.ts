@@ -19,8 +19,8 @@ export interface ClientData {
   phone: number;
   total: number;
   totalDue: number;
-  createdAt: Date;
-  updatedAt: Date;
+  // createdAt: Date;
+  // updatedAt: Date;
 }
 
 export interface ItemData {
@@ -61,7 +61,15 @@ export interface ClientsResponse {
 export async function getClients(): Promise<ClientsResponse> {
   try {
     console.log("database");
-    const clients = await prisma.client.findMany();
+    const clients = await prisma.client.findMany({
+      select: {
+        name: true,
+        address: true,
+        phone: true,
+        total: true,
+        totalDue: true,
+      },
+    });
     console.log("end: ", { clients });
     return { clients };
   } catch (error) {

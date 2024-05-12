@@ -158,8 +158,8 @@ export function ICart() {
     const clientData = {
       // id: data.id,
 
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      // createdAt: new Date(),
+      // updatedAt: new Date(),
       name: data.name,
       address: data.address,
       phone: data.phone,
