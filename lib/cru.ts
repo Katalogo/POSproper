@@ -17,7 +17,7 @@ export interface ClientData {
   name: string;
   address: string;
   phone: number;
-  totalR: number;
+  total: number;
   totalDue: number;
   // createdAt: Date;
   // updatedAt: Date;
@@ -66,7 +66,7 @@ export async function getClients(): Promise<ClientsResponse> {
         name: true,
         address: true,
         phone: true,
-        totalR: true,
+        total: true,
         totalDue: true,
       },
     });
