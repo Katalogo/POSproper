@@ -163,7 +163,7 @@ export function ICart() {
       name: data.name,
       address: data.address,
       phone: data.phone,
-      total: 0, // Initialize total to 0
+      totalR: 0, // Initialize total to 0
       totalDue: 0, // Initialize totalDue to 0
       // totalPaid: 0,
     };
@@ -194,7 +194,7 @@ export function ICart() {
     const totalDue = total - totalPaid;
 
     // Update the clientData object with the calculated total and totalDue
-    clientData.total = total;
+    clientData.totalR = total;
     clientData.totalDue = totalDue;
     // clientData.totalPaid = totalPaid;
 

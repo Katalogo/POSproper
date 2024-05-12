@@ -11,7 +11,7 @@ async function getClientsD() {
 export default async function QuickCards() {
   const data = await getClientsD();
   const ClientCount = data.length;
-  const totalRev = data.reduce((sum, client) => sum + client.total, 0);
+  const totalRev = data.reduce((sum, client) => sum + client.totalR, 0);
   const formatN = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
