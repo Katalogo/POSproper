@@ -1,11 +1,12 @@
 "use server";
 import { FormValuesSchema } from "@/components/schema";
-import prisma from "./prisma";
+// import prisma from "./prisma";
+import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 
 // import { PrismaClient } from "@prisma/client";
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export interface ClientData {
   // name: string;
