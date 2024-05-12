@@ -8,12 +8,19 @@ import { z } from "zod";
 // const prisma = new PrismaClient();
 
 export interface ClientData {
+  // name: string;
+  // address: string;
+  // phone: number;
+  // total: number;
+  // totalDue: number;
   id: string;
   name: string;
   address: string;
   phone: number;
   total: number;
   totalDue: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ItemData {
@@ -55,7 +62,7 @@ export async function getClients(): Promise<ClientsResponse> {
   try {
     console.log("database");
     const clients = await prisma.client.findMany();
-    // console.log("end: ", { clients });
+    console.log("end: ", { clients });
     return { clients };
   } catch (error) {
     console.error(error);
