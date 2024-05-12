@@ -8,6 +8,7 @@ import { z } from "zod";
 // const prisma = new PrismaClient();
 
 export interface ClientData {
+  id: string;
   name: string;
   address: string;
   phone: number;
