@@ -13,7 +13,7 @@ export interface ClientData {
   // phone: number;
   // total: number;
   // totalDue: number;
-  id: string;
+  // id: string;
   name: string;
   address: string;
   phone: number;
