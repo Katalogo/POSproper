@@ -79,11 +79,11 @@ const Total = ({ control }: { control: Control<FormValuesSchema> }) => {
       name: "item",
       control,
     }) || [];
-  const total = formValues.reduce(
+  const totalR = formValues.reduce(
     (acc, current) => acc + (current.price || 0) * (current.quantity || 0),
     0
   );
-  return total;
+  return totalR;
 };
 
 const TotalDue = ({ control }: { control: Control<FormValuesSchema> }) => {
