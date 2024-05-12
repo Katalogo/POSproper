@@ -156,6 +156,7 @@ export function ICart() {
 
     // Extract the necessary data from the form values
     const clientData = {
+      id: data.id,
       name: data.name,
       address: data.address,
       phone: data.phone,
