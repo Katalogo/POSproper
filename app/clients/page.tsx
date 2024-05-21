@@ -1,12 +1,14 @@
 import { getClients, ClientData } from "@/lib/cru";
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
+import { getUser } from "@/lib/actions";
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
   console.log("table");
 
-  const cru = await getClients();
+  // const cru = await getClients();
+  const cru = await getUser();
   // console.log("start: ", { cru });
   // Assuming 'cru' is an array of clients, you might need to transform it to match the expected structure
   // For example, if each client has an 'amount', 'status', 'name', and 'address', you could transform it like this:
