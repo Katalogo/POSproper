@@ -2,7 +2,7 @@
 
 import prisma from "./prisma";
 
-interface ClientData {
+export interface ClientData {
   name: string;
   address: string;
   phone: number;

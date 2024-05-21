@@ -1,4 +1,4 @@
-import { getClients, ClientData } from "@/lib/cru";
+import { ClientData } from "@/lib/actions";
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { getUser } from "@/lib/actions";
