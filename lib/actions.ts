@@ -6,7 +6,7 @@ interface ClientData {
   name: string;
   address: string;
   phone: number;
-  total: number;
+  // total: number;
   totalDue: number;
 }
 
@@ -37,7 +37,7 @@ export const getUser = async (): Promise<ClientsResponse> => {
       name: true,
       address: true,
       phone: true,
-      total: true,
+      // total: true,
       totalDue: true,
     },
   });
