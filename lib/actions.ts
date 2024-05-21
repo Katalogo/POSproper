@@ -32,15 +32,7 @@ interface ClientsResponse {
 }
 
 export const getUser = async (): Promise<ClientsResponse> => {
-  const clients = await prisma.client.findMany({
-    select: {
-      name: true,
-      address: true,
-      phone: true,
-      // total: true,
-      totalDue: true,
-    },
-  });
+  const clients = await prisma.client.findMany({});
   console.log("end: ", { clients });
   return { clients };
 };
