@@ -1,12 +1,15 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import prisma from "./prisma";
+import { createClientWithItemsAndPayments } from "./cru";
+import { redirect } from "next/navigation";
 
 export interface ClientData {
   name: string;
   address: string;
   phone: number;
-  // total: number;
+  total: number;
   totalDue: number;
 }
 
@@ -37,10 +40,19 @@ export const getUser = async (): Promise<ClientsResponse> => {
       name: true,
       address: true,
       phone: true,
-      // total: true,
+      total: true,
       totalDue: true,
     },
   });
-  console.log("end: ", { clients });
+  // console.log("end: ", { clients });
+  revalidatePath("/clients");
   return { clients };
 };
+
+// export async function createClientWithItemsAndPaymentsActions(
+//   data: ClientWithItemsAndPayments
+// ) {
+//   await createClientWithItemsAndPayments(data);
+//   revalidatePath("/clients");
+//   redirect("/clients");
+// }

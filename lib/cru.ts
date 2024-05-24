@@ -2,6 +2,7 @@
 import { FormValuesSchema } from "@/components/schema";
 import prisma from "./prisma";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 // import { PrismaClient } from "@prisma/client";
 
@@ -70,7 +71,7 @@ export async function getClients(): Promise<ClientsResponse> {
         totalDue: true,
       },
     });
-    console.log("end: ", { clients });
+    // console.log("end: ", { clients });
     return { clients };
   } catch (error) {
     console.error(error);
@@ -115,7 +116,7 @@ export async function createClientWithItemsAndPayments(
       },
     });
     console.log("clientwithItem");
-    console.log({ newClient });
+    // console.log({ newClient });
     return { newClient };
   } catch (error) {
     console.error("Error in createClientWithItemsAndPayments:", error);

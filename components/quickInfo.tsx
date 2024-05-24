@@ -1,9 +1,11 @@
 import { Activity, CreditCard, IndianRupee, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getClients } from "@/lib/cru";
+import { getUser } from "@/lib/actions";
+import { revalidatePath } from "next/cache";
 
 async function getClientsD() {
-  const cru = await getClients();
+  const cru = await getUser();
   // console.log(cru);
   return cru.clients;
 }
@@ -21,6 +23,8 @@ export default async function QuickCards() {
     style: "currency",
     currency: "INR",
   }).format(totalD);
+
+  revalidatePath("/");
   // console.log({ data });
   console.log("quickCards");
   return (

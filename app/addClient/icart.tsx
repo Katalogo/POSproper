@@ -38,6 +38,8 @@ import {
   createClientWithItemsAndPayments,
 } from "@/lib/cru";
 import { FormattedNumber } from "@/components/calculations";
+import { getUser } from "@/lib/actions";
+import { revalidatePath } from "next/cache";
 
 // const FormValuesSchema = z.object({
 //   name: z.coerce
@@ -138,7 +140,7 @@ export function ICart() {
   // const onSubmit = (data: FormValuesSchema) => console.log(data);
   // const { toast } = useToast();
   const onSubmit = (data: FormValuesSchema) => {
-    console.log(data);
+    // console.log(data);
     // toast({
     //   title: "You submitted the following values:",
     //   description: (
@@ -214,7 +216,7 @@ export function ICart() {
   return (
     <Form {...form}>
       {/* console.log(`cart.${index}.name`) */}
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} action={getUser}>
         <div className="pb-2">
           <FormField
             control={form.control}
