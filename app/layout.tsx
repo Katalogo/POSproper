@@ -6,6 +6,7 @@ import { NavBar } from "@/components/navBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  manifest: "/manifest.json",
   title: "Client Payments",
   description: "Client Payments Record",
 };
